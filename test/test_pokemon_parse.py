@@ -14,8 +14,8 @@ class TestParsePokemonPage(unittest.TestCase):
         result = parse_pokemon("http://fakeurl.com/pokemon")
 
         self.assertIsNotNone(result)
-        self.assertEqual(result.name, "Squirtle")
-        self.assertEqual(result.sku, "7036")
+        self.assertEqual(result.name, "Bulbasaur")
+        self.assertEqual(result.sku, "4391")
 
     @patch('parse_pokemon.requests.get')
     def test_failed_parse(self, mock_get):
