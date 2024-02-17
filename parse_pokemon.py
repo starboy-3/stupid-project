@@ -26,8 +26,12 @@ def parse_pokemon(product_link) -> Optional[Pokemon]:
     product_div = soup.find('div', id=lambda x: x and x.startswith('product-'))
     product_id = product_div['id'].split('-')[1] if product_div and '-' in product_div['id'] else None
 
-    description_element = soup.find('div', class_='description') or soup.find('div', id='description')
-    description = description_element.get_text(strip=True) if description_element else ''
+    description_div = soup.find('div', class_='woocommerce-Tabs-panel--description')
+    description = ""
+    if description_div:
+        description_p = description_div.find('p')
+        if description_p:
+            description = description_p.get_text(strip=True)
 
     return Pokemon(
         id=product_id,

@@ -3,7 +3,7 @@ from unittest.mock import patch
 from parse_catalog import parse_catalog
 
 class ParserTestCase(unittest.TestCase):
-    @patch('parse.requests.get')
+    @patch('parse_catalog.requests.get')
     def test_successful_parsing(self, mocked_get):
         with open('resources/ok_catalog_response.html', 'r') as file:
             mocked_get.return_value.ok = True
@@ -20,7 +20,7 @@ class ParserTestCase(unittest.TestCase):
         self.assertEqual("759", bulbasaur.id)
         self.assertEqual("Bulbasaur", bulbasaur.name)
 
-    @patch('parse.requests.get')
+    @patch('parse_catalog.requests.get')
     def test_failed_retrieval(self, mocked_get):
         mocked_get.return_value.ok = False
         mocked_get.return_value.status_code = 404
@@ -28,5 +28,5 @@ class ParserTestCase(unittest.TestCase):
         result = parse_catalog("mock_url")
         self.assertEqual(0, len(result))
 
-if __name__ == 'main':
+if __name__ == '__main__':
     unittest.main()

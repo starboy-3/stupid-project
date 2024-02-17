@@ -14,3 +14,18 @@ class Pokemon:
     def __repr__(self):
         return f"<Pokemon(id={self.id}, name={self.name}, price={self.price}, stock={self.stock}, sku={self.sku}, " \
                f"categories={self.categories}, product_link={self.product_link}, tags={self.tags})>"
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price,
+            'stock': self.stock,
+            'sku': self.sku,
+            'image_url': self.image_url,
+            'product_link': self.product_link,
+            'categories': self.categories,
+            'tags': self.tags,
+            'description': self.description
+        }
+

@@ -25,5 +25,5 @@ class TestParsePokemonPage(unittest.TestCase):
         self.assertIsNone(result)
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     unittest.main()

@@ -15,7 +15,7 @@ def parse_catalog(url, parse_individual_page=False) -> List[Pokemon]:
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
         products = soup.findAll('li', {'class': 'product'})
-
+        unique_ids = set()
         for product in products:
             link_element = product.find('a', class_='woocommerce-LoopProduct-link')
             product_link = link_element['href'] if link_element else None
@@ -25,8 +25,11 @@ def parse_catalog(url, parse_individual_page=False) -> List[Pokemon]:
                 if pokemon is not None:
                     products_data.append(pokemon)
             else:
-                products_data.append(parse_poke_from_catalog(product, product_link))
+                pokemon = parse_poke_from_catalog(product, product_link)
 
+            if pokemon.id not in unique_ids:
+                unique_ids.add(pokemon.id)
+                products_data.append(pokemon)
     else:
         print(f'Failed to retrieve webpage: Status code {response.status_code}')
 
@@ -60,4 +63,6 @@ def parse_poke_from_catalog(product, product_link):
     )
 
 def get_json_response(url, parse_individual_page) -> Any:
-    return json.dumps(parse_catalog(url, parse_individual_page), ensure_ascii=False, indent=2)
+    pokemons = parse_catalog(url, parse_individual_page)
+    pokemons_data = [pokemon.to_dict() for pokemon in pokemons]
+    return json.dumps(pokemons_data, ensure_ascii=False, indent=2)
